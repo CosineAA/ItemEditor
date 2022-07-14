@@ -14,6 +14,7 @@ class ItemEditor : JavaPlugin() {
         logger.info("아이템 수정 플러그인 활성화")
 
         config = Config(this, "command.yml")
+        config.saveDefaultConfig()
 
         getCommand("아이템").executor = ItemEditorCommand()
         getCommand("확성기").executor = NoticeCommand()

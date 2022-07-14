@@ -15,14 +15,13 @@ class Config(plugin: JavaPlugin, fileName: String) {
     private var fileName: String
     private var plugin: JavaPlugin
     private var file: File
-    private lateinit var config: YamlConfiguration
+    private var config: YamlConfiguration? = null
 
     init {
         this.plugin = plugin
         this.fileName = fileName
         val dataFolder: File = plugin.dataFolder ?: throw IllegalStateException()
         this.file = File(dataFolder.toString() + File.separatorChar + this.fileName)
-        reloadConfig()
     }
 
     fun reloadConfig() {
@@ -34,15 +33,18 @@ class Config(plugin: JavaPlugin, fileName: String) {
         val defConfigStream: InputStream? = this.plugin.getResource(this.fileName)
         if (defConfigStream != null) {
             val defConfig: YamlConfiguration = YamlConfiguration.loadConfiguration(InputStreamReader(defConfigStream))
-            this.config.defaults = defConfig
+            this.config?.defaults = defConfig
         }
     }
-    fun getConfig(): YamlConfiguration {
+    fun getConfig(): YamlConfiguration? {
+        if (config == null) {
+            reloadConfig()
+        }
         return this.config
     }
     fun saveConfig() {
         try {
-            getConfig().save(this.file)
+            getConfig()?.save(this.file)
         } catch (e: IOException) {
             e.printStackTrace()
         }
