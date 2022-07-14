@@ -1,0 +1,10 @@
+main: com.cosine.itemeditor.main.ItemEditor
+name: ItemEditor
+version: 1.0
+author: Cosine_A
+description: 아이템 수정 플러그인
+
+commands:
+  아이템:
+  확성기:
+  관리:
